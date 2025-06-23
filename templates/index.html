@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Face Authentication</title>
+</head>
+<body>
+    <h1>Register a New User</h1>
+    <form action="/register" method="post" enctype="multipart/form-data">
+        Name: <input type="text" name="name" required><br><br>
+        Upload Face Image: <input type="file" name="file" accept="image/*" required><br><br>
+        <button type="submit">Register</button>
+    </form>
+
+    <hr>
+
+    <h1>Login via Image</h1>
+    <form action="/identify" method="post" enctype="multipart/form-data">
+        Upload Face Image: <input type="file" name="file" accept="image/*" required><br><br>
+        <button type="submit">Identify</button>
+    </form>
+</body>
+</html>

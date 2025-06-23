@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Face via Webcam</title>
+</head>
+<body>
+    <h1>Update Face for {{ user.name }}</h1>
+    <video id="video" width="640" height="480" autoplay></video><br>
+    <button onclick="captureAndUpdate()">Capture & Update</button>
+
+    <script>
+        const video = document.getElementById('video');
+        navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
+            video.srcObject = stream;
+        });
+
+        function captureAndUpdate() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 640;
+            canvas.height = 480;
+            const context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0, 640, 480);
+            canvas.toBlob((blob) => {
+                const formData = new FormData();
+                formData.append("file", blob, "capture.jpg");
+
+                fetch("/update-face/{{ user.id }}", {
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    if (data.success) window.location.href = "/users";
+                })
+                .catch(err => alert("Error: " + err));
+            }, "image/jpeg");
+        }
+    </script>
+</body>
+</html>

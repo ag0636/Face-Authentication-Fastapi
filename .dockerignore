@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+face_data.db
+uploads/
+known_faces/
+*.jpeg
+*.jpg
+*.png

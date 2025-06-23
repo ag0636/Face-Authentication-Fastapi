@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register via Webcam</title>
+</head>
+<body>
+    <h1>Register via Webcam</h1>
+    <input type="text" id="name" placeholder="Enter your name"><br><br>
+    <video id="video" width="640" height="480" autoplay></video><br>
+    <button onclick="captureAndRegister()">Capture & Register</button>
+
+    <script>
+        const video = document.getElementById('video');
+        navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
+            video.srcObject = stream;
+        });
+
+        function captureAndRegister() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 640;
+            canvas.height = 480;
+            const context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0, 640, 480);
+            canvas.toBlob((blob) => {
+                const name = document.getElementById('name').value;
+                const formData = new FormData();
+                formData.append("file", blob, "capture.jpg");
+                formData.append("name", name);
+
+                fetch("/register", {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest"
+                    }
+                }).then(response => response.json())
+                  .then(data => {
+                      alert(data.message || JSON.stringify(data));
+                      window.location.href = "/";
+                  })
+                  .catch(err => alert("Error: " + err));
+            }, "image/jpeg");
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Register via Webcam</title>
+</head>
+<body>
+    <h1>Register via Webcam</h1>
+    <input type="text" id="name" placeholder="Enter your name"><br><br>
+    <video id="video" width="640" height="480" autoplay></video><br>
+    <button onclick="captureAndRegister()">Capture & Register</button>
+
+    <script>
+        const video = document.getElementById('video');
+        navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
+            video.srcObject = stream;
+        });
+
+        function captureAndRegister() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 640;
+            canvas.height = 480;
+            const context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0, 640, 480);
+            canvas.toBlob((blob) => {
+                const name = document.getElementById('name').value;
+                const formData = new FormData();
+                formData.append("file", blob, "capture.jpg");
+                formData.append("name", name);
+
+                fetch("/register", {
+                    method: "POST",
+                    body: formData
+                }).then(response => response.json())
+                  .then(data => alert(JSON.stringify(data)))
+                  .catch(err => alert("Error: " + err));
+            }, "image/jpeg");
+        }
+    </script>
+</body>
+</html> -->

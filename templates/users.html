@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registered Users</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            margin: auto;
+            width: 90%;
+            text-align: center;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ccc;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        img.thumbnail {
+            width: 80px;
+            height: 80px;
+            border-radius: 6px;
+            object-fit: cover;
+            border: 1px solid #999;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        button, a.edit-btn, a.webcam-btn {
+            padding: 6px 12px;
+            font-size: 14px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        button {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        a.edit-btn {
+            background-color: #007bff;
+            color: white;
+        }
+
+        a.webcam-btn {
+            background-color: #28a745;
+            color: white;
+        }
+
+        button:hover {
+            background-color: #c82333;
+        }
+
+        a.edit-btn:hover {
+            background-color: #0056b3;
+        }
+
+        a.webcam-btn:hover {
+            background-color: #1e7e34;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align:center;">All Registered Users</h1>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Image</th>
+            <th>Action</th>
+        </tr>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.name }}</td>
+            <td>
+                {% if user.image_filename %}
+                    <img class="thumbnail" src="/uploads/{{ user.image_filename }}" alt="{{ user.name }}'s Face">
+                {% else %}
+                    N/A
+                {% endif %}
+            </td>
+            <td>
+                <div class="action-buttons">
+                    <form action="/delete-user/{{ user.id }}" method="post" onsubmit="return confirm('Are you sure you want to delete {{ user.name }}?');">
+                        <button type="submit">Delete</button>
+                    </form>
+                    <a class="edit-btn" href="/edit-user/{{ user.id }}">Edit Name</a>
+                    <a class="webcam-btn" href="/edit-user-webcam/{{ user.id }}">Update Face</a>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <br><br>
+    <div style="text-align:center;">
+        <a href="/">Return to Dashboard</a>
+    </div>
+</body>
+</html>

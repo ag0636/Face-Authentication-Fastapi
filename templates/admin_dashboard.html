@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard - Face Auth</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        header {
+            background-color: #343a40;
+            color: white;
+            padding: 30px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        .container {
+            padding: 50px 20px;
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        a.button {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 17px;
+            transition: all 0.3s ease;
+            min-width: 220px;
+            text-align: center;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+
+        a.button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            margin-top: 50px;
+            color: #666;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Admin Dashboard</h1>
+</header>
+
+<div class="container">
+    <div class="button-container">
+        <a class="button" href="/image-form">📷 Register via Image</a>
+        <a class="button" href="/register_webcam">🎥 Register via Webcam</a>
+        <a class="button" href="/image-login">🔐 Login via Image</a>
+        <a class="button" href="/identify_webcam">🧠 Login via Webcam</a>
+        <a class="button" href="/users">👥 View Registered Users</a>
+    </div>
+</div>
+
+<footer>
+    &copy; 2025 Face Authentication System
+</footer>
+
+</body>
+</html>

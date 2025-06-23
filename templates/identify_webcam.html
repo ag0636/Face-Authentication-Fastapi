@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Identify via Webcam</title>
+</head>
+<body>
+    <h1>Login via Webcam</h1>
+    <video id="video" width="640" height="480" autoplay></video><br>
+    <button onclick="captureAndIdentify()">Capture & Identify</button>
+
+    <script>
+        const video = document.getElementById('video');
+        navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
+            video.srcObject = stream;
+        });
+
+        function captureAndIdentify() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 640;
+            canvas.height = 480;
+            const context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0, 640, 480);
+            canvas.toBlob((blob) => {
+                const formData = new FormData();
+                formData.append("file", blob, "capture.jpg");
+
+                fetch("/identify", {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest"
+                    }
+                }).then(response => response.json())
+                  .then(data => {
+                      alert(data.message || JSON.stringify(data));
+                      window.location.href = "/";
+                  })
+                  .catch(err => alert("Error: " + err));
+            }, "image/jpeg");
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Identify via Webcam</title>
+</head>
+<body>
+    <h1>Login via Webcam</h1>
+    <video id="video" width="640" height="480" autoplay></video><br>
+    <button onclick="captureAndIdentify()">Capture & Identify</button>
+
+    <script>
+        const video = document.getElementById('video');
+        navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
+            video.srcObject = stream;
+        });
+
+        function captureAndIdentify() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 640;
+            canvas.height = 480;
+            const context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0, 640, 480);
+            canvas.toBlob((blob) => {
+                const formData = new FormData();
+                formData.append("file", blob, "capture.jpg");
+
+                fetch("/identify", {
+                    method: "POST",
+                    body: formData
+                }).then(response => response.json())
+                  .then(data => alert(JSON.stringify(data)))
+                  .catch(err => alert("Error: " + err));
+            }, "image/jpeg");
+        }
+    </script>
+</body>
+</html> -->
