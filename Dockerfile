@@ -1,15 +1,24 @@
-# ✅ Uses dlib preinstalled (officially tested)
-FROM akhilnarang/dlib-opencv:python3.10
+FROM tiangolo/uvicorn-gunicorn-fastapi:python3.10
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+
+# Install system dependencies for dlib & opencv
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    libopenblas-dev \
+    liblapack-dev \
+    libx11-dev \
+    libgtk-3-dev \
+    libboost-all-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
 COPY requirements.txt .
 
-# Skip installing dlib and opencv again (already included)
-# So remove them from requirements.txt if needed
+# Remove dlib/opencv from requirements.txt if already present
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
